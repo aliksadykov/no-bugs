@@ -1,0 +1,429 @@
+### DEPOSIT. Authoirized user can deposit money on his own account. Min sum 0.01
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "id": 1,
+  "balance": 0.01
+}
+
+### Authoirized user can deposit money on his own account. Max sum 5000.00
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "id": 1,
+  "balance": 5000.00
+}
+
+### Authoirized user can deposit money on his own account. Second max sum 4999.99
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "id": 1,
+  "balance": 4999.99
+}
+
+### Unauthoirized User can't deposit money
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: null
+
+{
+  "id": 1,
+  "balance": 100.00
+}
+
+### User can't deposit sum > 5000.00
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "id": 1,
+  "balance": 5000.01
+}
+
+### User can't deposit sum < 0.00
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "id": 1,
+  "balance": -0.01
+}
+
+### User can't deposit sum = zero
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "id": 1,
+  "balance": 0.00
+}
+
+### User can't make deposit into someone else's account.
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "id": 2,
+  "balance": 10.00
+}
+
+### User can't make deposit deposit into non-existent account.
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "id": {{$random.integer(100, 200)}},
+  "balance": 10.00
+}
+
+### TRANSFER. User can transfer money to his second account. Min sum 0.01
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 0.01
+}
+
+### User can transfer money to his second account. Max sum 10000.00
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 10000.00
+}
+
+### User can transfer money to someones account. Second max sum 9999.99
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 5,
+  "amount": 9999.99
+}
+
+### User can't transfer money sum = zero to someones account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 5,
+  "amount": 0.00
+}
+
+### User can't transfer money sum = zero to own account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 0.00
+}
+
+### User can't transfer money sum < 0 to own account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": -0.01
+}
+
+### User can't transfer money sum < 0 to someone's account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 5,
+  "amount": -0.01
+}
+
+### User can't transfer money sum > 10000.01 to someone's account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 5,
+  "amount": 10000.01
+}
+
+### User can't transfer money sum > 10000.01 to own account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 10000.01
+}
+
+### User can't transfer money sum > account's balance, to own account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 5000.00
+}
+
+### User can't transfer money sum > account's balance, to someone's account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 5,
+  "amount": 5000.00
+}
+
+### User can't transfer money where senderAccountId and receiverAccountId equals, and sum is positive
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 1,
+  "amount": 5000.00
+}
+
+### User can't transfer money where senderAccountId and receiverAccountId equals, and sum is negative
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 1,
+  "amount": -1.00
+}
+
+### User can't transfer money to non existing account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 9999999999,
+  "amount": 100.00
+}
+
+### User can't transfer from non existing account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 9999999999,
+  "receiverAccountId": 2,
+  "amount": 100.00
+}
+
+### User can't transfer from not his own account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 5,
+  "receiverAccountId": 2,
+  "amount": 100.00
+}
+
+### User can't transfer betwen two account, where non of twi is his own
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "senderAccountId": 5,
+  "receiverAccountId": 6,
+  "amount": 100.00
+}
+
+### UPDATE NAME. User can update name with valid name with two words. First name min lenght
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "J Doe"
+}
+
+### UPDATE NAME. User can update name with valid name with two words. Last name min lenght
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "John D"
+}
+
+### UPDATE NAME. User can update name with valid name with two words. First name and Last name min lenght
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "J D"
+}
+
+### UPDATE NAME. User can update name, with valid name with "-"
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "John-one Doe"
+}
+
+### UPDATE NAME. User can update name, with valid last name with "-"
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "John Doe-one"
+}
+
+### UPDATE NAME. User can't update name when first name not letter. digit
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "1 Doe"
+}
+
+### UPDATE NAME. User can't update name when first name conatins digit
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "1lex Doe"
+}
+
+### UPDATE NAME. User can't update name when last name not letter. digit
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "John 2"
+}
+
+### UPDATE NAME. User can't update name when last name conatins digit
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "John 2Doe"
+}
+
+### UPDATE NAME. User can't update name when first and last name not letter. digit
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "1 2"
+}
+
+### UPDATE NAME. User can't update name when first or last name contains symbol
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "@lex Doe"
+}
+
+### UPDATE NAME. User can't update name when only space and one word
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": " John"
+}
+
+### UPDATE NAME. User can't update name when only one word plus space
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "John "
+}
+
+### UPDATE NAME. User can't update name when only space
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": " "
+}
+
+### UPDATE NAME. User can't update name when only 3 spaces
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "   "
+}
+
+### UPDATE NAME. User can't update name separated non space, "-"
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "John-Doe"
+}
+
+### UPDATE NAME. User can't update name separated non space, "."
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "name": "John.Doe"
+}
